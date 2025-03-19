@@ -10,7 +10,7 @@ import Form from "./Form/Form";
 import Button from "./Button/Button";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
-import useBroadcaster from "../../hooks/Broadcaster/useBroadcaster";
+import useBroadcaster from "../../hooks/broadcaster/useBroadcaster";
 import toast from "react-hot-toast";
 
 export function SignIn() {

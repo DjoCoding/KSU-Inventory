@@ -6,5 +6,5 @@ export interface IItem {
     description: string;
     pictures: string[];
     location: string;   
-    workshop: IWorkShop | number;
+    workshop: IWorkShop | string;
 }

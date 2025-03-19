@@ -17,7 +17,8 @@ export const item: IItem = {
         "https://as1.ftcdn.net/v2/jpg/03/08/57/00/1000_F_308570068_XYo94iBAHQghEQKcEqainvg4KZdtrdHE.jpg",
         "https://as2.ftcdn.net/v2/jpg/04/39/38/07/1000_F_439380799_PFzKQoAjU5lzTHIPsbeB0PTGGYCKpnx5.jpg"
     ],
-    location: "first floor, third section"
+    location: "first floor, third section",
+    workshop: "1"
 }
 
 export const items: IItem[] = [
@@ -39,7 +40,8 @@ export const items: IItem[] = [
 export const workshop: IWorkShop = {
     id: "12332",
     name: "WorkShop 1",
-    location: "Behind the main hall"
+    location: "Behind the main hall",
+    description: "a cool workshop"
 };
 
 export const workshops: IWorkShop[] = [
