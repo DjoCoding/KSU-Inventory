@@ -6,7 +6,7 @@ interface ItemProps {
 
 export default function Item({ item }: ItemProps) {
     return(
-        <div className="flex flex-col gap-2 rounded-t-2xl border-2 border-black/10 bg-white">
+        <div className="hover:scale-101 focus:scale-99 duration-300 transition-all cursor-pointer flex flex-col gap-2 rounded-2xl border-2 border-black/10 bg-white">
             {
                 item.pictures.length === 0
                 ?

@@ -1,17 +1,19 @@
+import logo from "../../assets/ksu.knife.logo.png"
+
 export default function SignIn() {
     return(
-        <div className="flex items-center justify-center absolute inset-0 bg-[#1588ba] overflow-hidden">
-            <form className="px-10 py-10 rounded bg-[rgb(238,238,238)] shadow-lg shadow-black/60 w-full max-w-[500px] flex flex-col item-center justify-center gap-12">
-                <div className="flex flex-col w-full gap-4">
-                    <h1 className="text-center uppercase text-7xl text-[#1588ba] font-medium">ksu</h1>
-                    <h2 className="text-center capitalize text-6xl text-black/50 font-medium">sign in</h2>
+        <div className="bg-primary absolute inset-0 flex items-center justify-center">
+            <div className="rounded-xl py-8 px-10 flex flex-col bg-white">
+                <div className="flex flex-col gap-3 items-center">
+                    <img src={logo} alt="KSU Logo" className="w-[50px]" />
+                    <p className="text-black text-lg font-medium">Sign in to your account</p>
                 </div>
-                <div className="py-10 flex flex-col gap-6">
-                    <input type="text" className="border outline-none border-black/10 text-black/70 rounded px-4 py-4 text-2xl font-medium" placeholder="Username" />
-                    <input type="password" className="border outline-none  border-black/10 text-black/70 rounded px-4 py-4 text-2xl font-medium" placeholder="Password" />
-                </div>
-                <button type="button" className="w-full bg-[#1588ba] capitalize text-white text-4xl py-4 rounded hover:scale-105 focus:scale-95 duration-300 cursor-pointer">sign in</button>
-            </form>
+                <form className="flex flex-col border-2 border-black/10 rounded-2xl mt-10">
+                    <input type="text"     className="px-3 py-4 text-lg text-black/70 outline-none border-b-2 border-b-black/10" placeholder="Username"/>
+                    <input type="password" className="px-3 py-4 text-lg text-black/70 outline-none" placeholder="Password"/>
+                </form>
+                <input type="button" className="mt-5 py-2 px-2 rounded-xl hover:scale-101 focus:scale-99 duration-300 transition-all cursor-pointer  w-full bg-primary text-white font-medium" value="Sign In" />
+            </div>
         </div>
     )
 }

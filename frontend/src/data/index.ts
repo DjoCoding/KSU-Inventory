@@ -5,7 +5,7 @@ import { IWorkShop } from "../types/workshop";
 export const user: IUser = {
     id: "1",
     username: "djaoued06",
-    role: "Admin"
+    role: "admin"
 }
 
 export const item: IItem = {
