@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateItemRequestBodyDto {
     @IsString()
@@ -17,6 +17,7 @@ export class CreateItemRequestBodyDto {
     @IsNotEmpty()
     workshop: string;
 }
+
 export class CreateItemDto {
     name: string;
     location: string;

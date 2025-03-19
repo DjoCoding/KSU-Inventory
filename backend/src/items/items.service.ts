@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Workshop } from 'src/workshop/entities/workshop.entity';
 import { CreateItemDto } from './dtos/create-item.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { UpdateItemDto } from './dtos/update-item.dto';
 
 @Injectable()
 export class ItemsService {
@@ -70,5 +71,45 @@ export class ItemsService {
         });
 
         return this.items.save(newItem);
+    }
+
+    async update(id: number, updateItemDto: UpdateItemDto) {
+        const item = await this.findByID(id);
+        const { 
+            name,
+            location, 
+            description,
+            pictures,
+            prevImages,
+            workshop: workshopName
+        } = updateItemDto;
+
+        let workshop: Workshop | null = null;
+        if(workshopName) {
+            workshop = await this.workshops.findOne({
+                where: {
+                    name: workshopName
+                }
+            });
+
+            if(!workshop) {
+                throw new NotFoundException(`workshop "${workshopName}" not found`);
+            }
+        }
+
+
+        let pics: string[] = [];
+        if(pictures) {
+            pics = await this.cloudinary.uploadImages(pictures);
+        }
+
+        if(name)            item.name = name;
+        if(location)        item.location = location;
+        if(description)     item.description = description;
+        if(prevImages)      item.pictures = prevImages;
+        if(workshopName)    item.workshop = workshop as Workshop;
+        item.pictures = [ ...item.pictures, ...pics ];
+
+        return this.items.save(item);
     }
 }

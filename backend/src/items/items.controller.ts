@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Private } from 'src/common/decorators/private.decorator';
 import Admin from 'src/common/guards/admin.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateItemDto, CreateItemRequestBodyDto } from './dtos/create-item.dto';
+import { UpdateItemDto, UpdateItemRequestBodyDto } from './dtos/update-item.dto';
 
 @Controller('items')
 export class ItemsController {
@@ -43,6 +44,26 @@ export class ItemsController {
         };
 
         const item = await this.items.create(createItemDto);
+        return {
+            item: item.toDTO()
+        }
+    }
+
+    @Put(':id')
+    @Private()
+    @Admin()
+    @UseInterceptors(FilesInterceptor("files"))
+    async update(
+        @Param("id", ParseIntPipe) id: number,
+        @Body() updateItemBodyDto: UpdateItemRequestBodyDto,
+        @UploadedFiles() files: Express.Multer.File[]
+    ) {
+        const updateItemDto: UpdateItemDto = {
+            ...updateItemBodyDto,
+            pictures: files,
+        }
+
+        const item = await this.items.update(id, updateItemDto);
         return {
             item: item.toDTO()
         }

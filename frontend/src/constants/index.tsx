@@ -27,3 +27,8 @@ export const DASHBOARD_NAV_ITEMS = [
         value: "workshops"
     }
 ]
+
+export const LOCAL_STORAGE = {
+    USER_KEY: "inventory-user",
+    ACCESS_TOKEN_KEY: "inventory-access-token"
+};

@@ -1,5 +1,4 @@
-export interface IWorkShop {
-    id: string;
+export interface CreateWorkshopData {
     name: string;
     location: string;
     description: string;
