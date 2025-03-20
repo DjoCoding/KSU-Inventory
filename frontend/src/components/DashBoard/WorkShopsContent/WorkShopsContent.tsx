@@ -2,14 +2,18 @@ import cn from "../../../utils/cn";
 import Header from "../Header/Header";
 import WorkShops from "./WorkShops/WorkShops";
 
-export default function WorkShopsContent() {
+interface WorkshopsContentProps {
+    onSideBarButtonClick: () => void;
+}
+
+export default function WorkShopsContent({ onSideBarButtonClick: handleClick }: WorkshopsContentProps) {
     return(
         <div
             className={cn(
-                "flex flex-col grow bg-gray-100 px-4 py-4 relative gap-6",
+                "max-sm:overflow-hidden flex flex-col grow bg-gray-100 px-4 py-4 relative gap-6",
             )}
         >
-            <Header />
+            <Header onSideBarButtonClick={handleClick} />
             <WorkShops />
         </div>
     )

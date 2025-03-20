@@ -7,7 +7,7 @@ interface HeaderProps {
 
 export default function Header({ openForm }: HeaderProps) {
     return(
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center md:justify-between items-center flex-wrap gap-4">
             <h1 className="capitalize font-bold text-5xl text-black/60">workshops</h1>
             {
                 user.role === "admin"

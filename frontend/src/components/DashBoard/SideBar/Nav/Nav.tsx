@@ -9,7 +9,7 @@ interface NavProps {
 
 export default function Nav({ subPage, setSubPage, isOpened }: NavProps) {
     return(
-        <div className="flex flex-col justify-center mt-10">
+        <div className="flex flex-col  justify-center mt-10">
             <ul className="space-y-3">
                 {
                     DASHBOARD_NAV_ITEMS

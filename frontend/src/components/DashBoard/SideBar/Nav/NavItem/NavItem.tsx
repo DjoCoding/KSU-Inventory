@@ -4,8 +4,8 @@ import cn from "../../../../../utils/cn";
 interface NavItemProps {
     icon: JSX.Element;
     value: string;
-    iconOnly: boolean;
     isActive: boolean;
+    iconOnly: boolean;
     onClick: () => void;
 }
 
@@ -22,13 +22,14 @@ export default function NavItem({ isActive, onClick: handleClick, icon, value, i
                 <>
                     { icon }
                 </>
-                {
-                    iconOnly
-                    &&
-                    <p className="capitalize text-white text-xl font-medium">
-                        { value }
-                    </p>
-                }
+                <p 
+                    className={cn(
+                        "capitalize text-white text-xl font-medium",
+                        iconOnly ? "block" : "hidden"
+                    )}
+                >
+                    { value }
+                </p>
             </div>
         </button>
     )
