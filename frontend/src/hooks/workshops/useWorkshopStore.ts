@@ -2,10 +2,12 @@ import { create } from "zustand";
 import { CreateWorkshopData } from "../../types/data/workshops/create-workshop.data";
 import { IWorkShop } from "../../types/workshop";
 import { createWorkshop, getWorkshop, getWorkshops } from "../../api";
+import { IItem } from "../../types/item";
 
 type WorkshopState = {
     workshops: IWorkShop[];
     selectedWorkshop: IWorkShop | null;
+    selectedWorkshopItems: IItem[] | null;
     
     loading: boolean;
     error: string | null;
@@ -30,6 +32,8 @@ type WorkshopStore = WorkshopState & WorkshopActions & WorkshopHelperActions;
 const useWorkshopStore = create<WorkshopStore>((set, get) => ({
     workshops: [],
     selectedWorkshop: null,
+    selectedWorkshopItems: null,
+
     loading: false,
     error: null,
 
@@ -53,8 +57,8 @@ const useWorkshopStore = create<WorkshopStore>((set, get) => ({
         
         try {
             const res = await getWorkshop(id);
-            const workshop = res.data.data.workshop as IWorkShop;
-            set({ selectedWorkshop: workshop })
+            const { workshop, items } = res.data.data.workshop as { workshop: IWorkShop, items: IItem[] };
+            set({ selectedWorkshop: workshop, selectedWorkshopItems: items })
         } catch(err) {
             get().setError("Failed to fetch workshop");
         } finally {

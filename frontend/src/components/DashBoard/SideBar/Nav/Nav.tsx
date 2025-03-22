@@ -4,16 +4,18 @@ import NavItem from "./NavItem/NavItem"
 interface NavProps {
     isOpened: boolean;
     subPage: string;
-    setSubPage: (v: string) => void;
+    onButtonClick: (v: string) => void;
 }
 
-export default function Nav({ subPage, setSubPage, isOpened }: NavProps) {
+export default function Nav({ subPage, onButtonClick: handleButtonClick, isOpened }: NavProps) {
+    
+
     return(
         <div className="flex flex-col  justify-center mt-10">
             <ul className="space-y-3">
                 {
                     DASHBOARD_NAV_ITEMS
-                    .map(({ icon, value }) => <NavItem onClick={() => setSubPage(value)} isActive={subPage === value} iconOnly={isOpened} icon={icon} value={value} />)
+                    .map(({ icon, value }) => <NavItem onClick={() => handleButtonClick(value)} isActive={subPage === value} iconOnly={isOpened} icon={icon} value={value} />)
                 }
             </ul>
         </div>

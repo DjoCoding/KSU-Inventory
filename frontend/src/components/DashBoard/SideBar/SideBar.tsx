@@ -10,10 +10,10 @@ interface SideBarProps {
     toggle: () => void;
     isOpened: boolean;
     subPage: string;
-    setSubPage: (v: string) => void;
+    onSubPageButtonClick: (subPage: string) => void;
 }
 
-export default function SideBar({ setSubPage, subPage, toggle, isOpened }: SideBarProps) {
+export default function SideBar({ onSubPageButtonClick: handleSubPageButtonClick, subPage, toggle, isOpened }: SideBarProps) {
     return(
         <div 
             className={cn(
@@ -22,11 +22,8 @@ export default function SideBar({ setSubPage, subPage, toggle, isOpened }: SideB
             )}
         >
             <Header isOpened={isOpened} handleButtonClick={toggle} />
-            <Nav setSubPage={setSubPage} subPage={subPage} isOpened={isOpened} />
+            <Nav onButtonClick={handleSubPageButtonClick} subPage={subPage} isOpened={isOpened} />
             <Account iconOnly={!isOpened} user={user} />
         </div>
     )
 }
-
-const isOpened = false;
-const f = isOpened ? "max-sm:absolute" : "max-sm:hidden"

@@ -50,3 +50,9 @@ export const workshops: IWorkShop[] = [
     workshop,
     workshop
 ]
+
+
+export const workshopWithItems: { workshop: IWorkShop, items: IItem[] } = {
+    workshop,
+    items
+};

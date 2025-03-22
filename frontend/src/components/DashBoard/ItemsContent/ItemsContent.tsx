@@ -1,12 +1,27 @@
+import { useEffect } from "react";
+
+import useItemStore from "../../../hooks/items/useItemStore";
+
 import cn from "../../../utils/cn";
-import Header from "../Header/Header";
-import Items from "./Items/Items";
+import Header from "../../shared/Header/Header";
+import Items from "../../shared/Items/Items";
+import Loading from "../../Loading/Loading";
 
 interface ItemsContentProps {
     onSideBarButtonClick: () => void;
 }
 
 export default function ItemsContent({ onSideBarButtonClick: handleClick }: ItemsContentProps) {
+    const { items, loading, getItems } = useItemStore();
+
+    useEffect(() => {
+        getItems();
+    }, [getItems]);
+
+    if(loading) {
+        return <Loading />
+    }
+
     return(
         <div
             className={cn(
@@ -14,7 +29,7 @@ export default function ItemsContent({ onSideBarButtonClick: handleClick }: Item
             )}
         >
             <Header onSideBarButtonClick={handleClick}/>
-            <Items />
+            <Items items={items} />
         </div>
     )
 }

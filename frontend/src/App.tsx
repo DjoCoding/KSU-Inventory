@@ -3,6 +3,8 @@ import { Toaster } from "react-hot-toast"
 
 import Home from "./pages/Home"
 import SignIn from "./pages/SignIn"
+import Layout from "./layouts/Layout"
+import WorkShop from "./pages/Workshop"
 import DashBoard from "./pages/DashBoard"
 
 export default function App() {
@@ -12,7 +14,10 @@ export default function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/" element={<Layout />}>
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/workshops/:id" element={<WorkShop />}/>
+        </Route>
       </Routes>
     </Router>
   )

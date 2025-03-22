@@ -60,7 +60,9 @@ export function SignIn() {
         clearError();
     }
 
-    const handleClick = async () => {
+    const handleSubmit = async (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        ev.preventDefault();
+
         const validationResult = LoginUserValidationSchema.safeParse(formData);
         const { success, error } = validationResult;
         
@@ -78,10 +80,9 @@ export function SignIn() {
     } 
 
     return(
-        <div className="rounded-xl py-8 px-10 flex flex-col bg-white">
+        <div className="scale-83 md:scale-100 rounded-xl py-8 px-10 flex flex-col bg-white">
             <Header error={error} />
-            <Form formData={formData} errors={validationErrors} onChange={handleChange} />
-            <Button onClick={handleClick} />
+            <Form formData={formData} errors={validationErrors} onChange={handleChange} onSubmit={handleSubmit} />
         </div>
     )
 }
