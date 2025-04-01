@@ -1,61 +1,45 @@
-import React, { useEffect, useState } from "react";
-import useItemStore from "../../../hooks/items/useItemStore";
-import useBroadcaster from "../../../hooks/broadcaster/useBroadcaster";
+import React, { useState } from "react";
 
-
-import { CreateItemState, CreateItemValidationError } from "../../../types/data/items/create-item.data"
+import { UpdateItemPrevData, UpdateItemState, UpdateItemValidationError } from "../../../types/data/items/update-item.data";
 import { CreateItemValidationSchema } from "../../../validation/items/create-item.validation";
 
-import Loading from "../../Loading/Loading";
-import Form from "../../shared/Form/Form";
 import Text from "../../shared/Form/Inputs/Text/Text";
 import TextArea from "../../shared/Form/Inputs/TextArea/TextArea";
-import File from "../../shared/Form/Inputs/File/File";
+import Form from "../../shared/Form/Form";
 import Picture from "../../shared/Picture/Picture";
-import toast from "react-hot-toast";
+import File from "../../shared/Form/Inputs/File/File";
 
-interface ItemFormProps {
-    isOpened: boolean;
+interface UpdateItemFormProps {
     onClose: () => void;
-    lockedFields?: string[];
-    prevFormData?: CreateItemState;
+    isOpened: boolean;
+    prevFormData: UpdateItemPrevData;
+    lockedFields: string[];
 }
 
-export default function ItemForm({ isOpened, onClose: handleClose, prevFormData, lockedFields = [] }: ItemFormProps) {
-    console.log(lockedFields);
-    const [formData, setFormData] = useState<CreateItemState>(
-        prevFormData 
-        ?
-        prevFormData 
-        : {
-        name: "",
-        description: "",
-        location: "",
-        pictures: [],
-        workshop: ""
+export default function UpdateItemForm({ isOpened, onClose: handleClose, prevFormData, lockedFields }: UpdateItemFormProps) {
+    const [formData, setFormData] = useState<UpdateItemState>({
+        ...prevFormData
     });
+    const setTextField = (field: string, v: string) => setFormData((prev) => ({ ...prev, [field]: v }));
 
-    const [validationErrors, setValidationErrors] = useState<CreateItemValidationError>({
+    const [validationErrors, setValidationErrors] = useState<UpdateItemValidationError>({
         name: "",
         location: "",
+        workshop: "",
         description: "",
-        pictures: "",
-        workshop: ""
-    })
-    const setError = (field: string, err: string) => setValidationErrors((prev) => ({ ...prev, [field]: err }));
-
-    const notifySuccess = useBroadcaster("create-item-success", (message) => {
-        toast.success(message);
+        pictures: ""
     });
-    const notifyError = useBroadcaster("create-item-error", (message) => {
-        toast.error(message);
+    const setValidationError = (field: string, err: string) => setValidationErrors((prev) => ({ ...prev, [field]: err }));
+    const clearValidationError = (field: string) => setValidationError(field, "");
+    const clearValidationErrors = () => setValidationErrors({
+        name: "",
+        location: "",
+        workshop: "",
+        description: "",
+        pictures: ""
     });
-    
 
-    const { createItem, loading, error, selectedItem } = useItemStore();
-
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = (e as React.ChangeEvent<HTMLInputElement>).target.files;
+    const handleFileUpload = (files: FileList | null) => {
         if(!files) return;
         
         const filesToInsert: File[] = [];
@@ -64,11 +48,11 @@ export default function ItemForm({ isOpened, onClose: handleClose, prevFormData,
         
         for(const file of files) {
             if(n >= 5) {
-                setError("pictures", "Max number of pictures reached");
+                setValidationError("pictures", "Max number of pictures reached");
                 break;
             }
 
-            const isfound = formData.pictures.find((pic) => pic.name == file.name);
+            const isfound = formData.pictures.find((pic) => !(pic instanceof String) && (pic as File).name == file.name);
             if(isfound) continue;
             
             filesToInsert.push(file);
@@ -83,40 +67,12 @@ export default function ItemForm({ isOpened, onClose: handleClose, prevFormData,
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name } = e.target;
-        setError(name, "");
-        
-        if(name == "pictures") return handleFileUpload(e as React.ChangeEvent<HTMLInputElement>);
-
-        const value = e.target.value;
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+        clearValidationError(name);
+        if(name === "pictures") return handleFileUpload((e as React.ChangeEvent<HTMLInputElement>).target.files);
+        return setTextField(name, e.target.value);
     }
-
-    const handleFormClose = () => {
-        // first reset all the state
-        setFormData({
-            name: "",
-            location: "",
-            description: "",
-            pictures: [],
-            workshop: ""
-        });
-
-        setValidationErrors({
-            name: "",
-            location: "",
-            description: "",
-            pictures: "",
-            workshop: ""
-        })
-
-        return handleClose();
-    }
-
-    const submit = async (formData: CreateItemState) => {
+    
+    const submit = async (formData: UpdateItemState) => {
         const validationResult = CreateItemValidationSchema.safeParse(formData);
         const { success, error } = validationResult;
         if(!success) {
@@ -133,7 +89,7 @@ export default function ItemForm({ isOpened, onClose: handleClose, prevFormData,
         }
 
         if(formData.pictures.length < 1) {
-            return setError("pictures", "At least one single picture is required");
+            return setValidationError("pictures", "At least one single picture is required");
         }
 
         const data = new FormData();
@@ -147,21 +103,17 @@ export default function ItemForm({ isOpened, onClose: handleClose, prevFormData,
             data.append("files", pic);
         }
 
-        return await createItem({ data });
-    }
+        return;
+        // return await updateItem({ data });
+    };
 
-    useEffect(() => {
-        if(selectedItem) {
-            return notifySuccess("Item created succesfully");
-        }
-
-        if(error) {
-            return notifyError("Failed to create item");
-        }
-    }, [selectedItem, error]);
-
-    if(loading) {
-        return <Loading />
+    const handleFormClose = () => {
+        clearValidationErrors();
+        setFormData({
+            ...prevFormData,
+            pictures: []
+        });
+        return handleClose();
     }
 
     return(
@@ -202,7 +154,7 @@ export default function ItemForm({ isOpened, onClose: handleClose, prevFormData,
                 value={formData.pictures}
                 required={true}
             />
-            <TextArea 
+            <TextArea
                 field="description"
                 onChange={handleChange}
                 validationError={validationErrors.description}

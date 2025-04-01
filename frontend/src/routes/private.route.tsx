@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth/useAuth";
 
@@ -9,15 +9,19 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ children }: PrivateRouteProps) {
-    const { fetch, loading, user } = useAuth();
+    const { fetch, loading } = useAuth();
+    const [authStatus, setAuthStatus] = useState<boolean | null>(null);
 
     useEffect(() => {
-        fetch();
-    }, [fetch]);
+        (async() => {
+            const status = await fetch();
+            return setAuthStatus(status);
+        })();
+    }, []);
 
-    if(loading) {
+    if(authStatus === null || loading) {
         return <Loading />
     }
-
-    return user?.username !== null ? children : <Navigate to="/signin" />
+    
+    return authStatus? children : <Navigate to="/signin" /> 
 }

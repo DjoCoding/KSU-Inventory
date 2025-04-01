@@ -123,3 +123,62 @@ html, body {
     --color-primary: #1588ba;
     --color-hover-dark: #4d5892;
 }
+
+/* CSS to hide the scrollbar but allow scrolling */
+.scrollbar-hide {
+    overflow: auto; /* Enable scrolling */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Edge */
+  }
+
+
+.loader {
+    --size: 2em;
+    --color: currentcolor;
+    --ghost-opacity: 0.1;
+    --ghost-color: color-mix(
+        in srgb,
+        currentcolor calc(var(--ghost-opacity) * 100%),
+        transparent
+    );
+    animation: loader var(--speed, 0.5s) infinite linear;
+
+    --_border-width: calc(var(--size) * 0.172); 
+    position: relative;
+    display: inline-block;
+    width: var(--size);
+    aspect-ratio: 1;
+    border: var(--_border-width) solid;
+    border-color: var(--color) var(--ghost-color) var(--ghost-color) var(--color);
+    border-radius: 100%; 
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        background: var(--color);
+        width: var(--_border-width);
+        aspect-ratio: 1;
+        border-radius: 100%;
+    }
+    &::before {
+        top: 0;
+        right: 0;
+    }
+    &::after {
+        bottom: 0;
+        left: 0;
+    }
+}
+
+@keyframes loader {
+    0% {
+        rotate: 0deg;
+    }
+    100% {
+        rotate: 360deg;
+    }
+}

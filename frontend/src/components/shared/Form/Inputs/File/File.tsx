@@ -1,7 +1,7 @@
 import React from "react";
 import { FormInputProps } from "../../Form";
 
-type FileProps = FormInputProps<HTMLInputElement, File[]> & { Component: React.FC<{ file: File }> };
+type FileProps = FormInputProps<HTMLInputElement, (File | string)[]> & { Component: React.FC<{ file: File | string }> };
 
 export default function File({ onChange: handleChange, value: files, validationError, field, Component, required }: FileProps) {
     return(

@@ -57,7 +57,7 @@ const useWorkshopStore = create<WorkshopStore>((set, get) => ({
         
         try {
             const res = await getWorkshop(id);
-            const { workshop, items } = res.data.data.workshop as { workshop: IWorkShop, items: IItem[] };
+            const { workshop, items } = res.data.data as { workshop: IWorkShop, items: IItem[] };
             set({ selectedWorkshop: workshop, selectedWorkshopItems: items })
         } catch(err) {
             get().setError("Failed to fetch workshop");

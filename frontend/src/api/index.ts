@@ -16,6 +16,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem(LOCAL_STORAGE.ACCESS_TOKEN_KEY);
+    console.log(token);
     if(token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -49,6 +50,16 @@ export const getItem = async (id: string) => {
 
 export const getWorkshop = async (id: string) => {
     return api.get<ApiResponse>(`/workshops/${id}`);
+}
+
+export const updateUserProfilePicture = async (id: string, picture: File) => {
+    const formData = new FormData();
+    formData.append("picture", picture);
+    return api.put<ApiResponse>(`/users/${id}/pfp`, formData);
+}
+
+export const getProfile = async () => {
+    return api.get<ApiResponse>(`/users/me`);
 }
 
 export default api;

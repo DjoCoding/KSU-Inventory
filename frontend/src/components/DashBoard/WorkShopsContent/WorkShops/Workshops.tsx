@@ -16,7 +16,7 @@ export default function Workshops({ workshops }: WorkshopsProps) {
 
     
     return(
-        <div className="flex flex-col gap-10">
+        <div className="grow flex flex-col gap-10">
             <Header openForm={openForm}/>
             <WorkshopsGrid workshops={workshops} />
             <WorkshopForm isOpened={isOpened} onClose={closeForm} />

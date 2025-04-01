@@ -53,6 +53,7 @@ const useItemStore = create<ItemStore>((set, get) => ({
         try {
             const res = await getItem(id);
             const item = res.data.data.item as IItem;
+            console.log(item)
             set({ selectedItem: item })
         } catch(err) {
             get().setError("Failed to fetch item")
@@ -93,7 +94,7 @@ const useItemStore = create<ItemStore>((set, get) => ({
     },
     
     init: () => {
-        return set({ loading: true, error: null });
+        return set({ selectedItem: null, items: [], loading: true, error: null });
     }
 }))
 

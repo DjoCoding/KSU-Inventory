@@ -1,14 +1,32 @@
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../hooks/auth/useAuth";
+
 import { IWorkShop } from "../../../../types/workshop"
 
-import { user } from "../../../../data";
+import Loading from "../../../Loading/Loading";
 
 interface WorkShopProps {
     workshop: IWorkShop;
 }
 
 export default function WorkShop({ workshop }: WorkShopProps) {
+    const navigate = useNavigate();
+
+    const { user } = useAuth();
+
+    const handleClick = () => {
+        return navigate(`/workshops/${workshop.id}`);
+    }
+
+    if(!user) {
+        return <Loading />   
+    }
+
     return(
-        <div className="cursor-pointer px-2 py-2 flex items-center justify-between w-full bg-white rounded-xl border border-black/20">
+        <div 
+            onClick={handleClick}
+            className="z-30 cursor-pointer px-2 py-2 flex items-center justify-between w-full bg-white rounded-xl border border-black/20"
+        >
             <div className="flex flex-col gap-1">
                 <p className="text-lg text-black/80 font-medium">{ workshop.name }</p>
                 <p className="text-sm text-black/40 font-normal">{ workshop.location }</p>

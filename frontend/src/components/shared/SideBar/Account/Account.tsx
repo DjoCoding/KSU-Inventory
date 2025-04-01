@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { IUser } from "../../../../types/user";
 import cn from "../../../../utils/cn";
 
@@ -7,8 +8,12 @@ interface AccountProps {
 }
 
 export default function Account({ iconOnly, user }: AccountProps) {
+    const navigate = useNavigate();
+
+    const handleAccountClick = () => navigate("/account"); 
+
     return(
-        <div className="px-2 absolute left-0 bottom-4 w-full">
+        <div onClick={handleAccountClick} className="cursor-pointer px-2 absolute left-0 bottom-4 w-full">
             <div 
                 className={cn(
                     "bg-[#eee] px-2 py-2 flex items-center rounded-xl",
@@ -16,10 +21,16 @@ export default function Account({ iconOnly, user }: AccountProps) {
                 )}
             >
                 <div className="flex gap-1 items-center justify-center">
+                    {
+                        user.profile_pic === null
+                        ?
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12 cursor-pointer">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                        :
+                        <img src={user.profile_pic} className="size-8 object-cover object-top rounded-[50%]"/>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 cursor-pointer">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    </svg>
+                    }
                 {
                     !iconOnly
                     &&
@@ -39,7 +50,6 @@ export default function Account({ iconOnly, user }: AccountProps) {
                     </button>
                 }
             </div>
-            
         </div>
     )
 }

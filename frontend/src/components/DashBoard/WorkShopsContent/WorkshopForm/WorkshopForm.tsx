@@ -13,7 +13,7 @@ interface WorkshopFormProps {
     onClose: () => void;
 }
 
-export default function WorkshopForm({ isOpened, onClose: handleClose  }: WorkshopFormProps) {
+export default function WorkshopForm({ isOpened, onClose: handleClose }: WorkshopFormProps) {
     const [formData, setFormData] = useState<CreateWorkshopState>({
         name: "",
         location: "",

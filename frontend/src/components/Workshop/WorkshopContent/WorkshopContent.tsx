@@ -5,7 +5,7 @@ import { IItem } from "../../../types/item";
 import { IUser } from "../../../types/user";
 import Header from "./Header/Header";
 import ItemsGrid from "../../shared/ItemsGrid/ItemsGrid";
-import ItemForm from "../../shared/ItemForm/ItemForm";
+import ItemForm from "../../shared/CreateItemForm/CreateItemForm";
 
 interface WorkshopContentProps {
     user: IUser;
@@ -20,7 +20,7 @@ export default function WorkshopContent({ workshop, items, user }: WorkshopConte
 
     return(
         <div
-            className="flex flex-col gap-10"
+            className="grow flex flex-col gap-10"
         >    
             <Header user={user} name={workshop.name} openForm={openForm} />        
             <ItemsGrid items={items} />
